@@ -5,7 +5,7 @@ import { useElementsStore } from '@/stores/global/elementsStore';
 const elementsPanel = new ElementsPanel();
 const elementsStore = useElementsStore();
 
-import ElementsPanelButton from "@/components/elements/button/implementation/panel.vue"
+import ElementsPanelButton from "@/components/elements/button/implementations/panel.vue"
 import Button from '@/components/elements/button/button';
 elementsPanel.register(Button, ElementsPanelButton);
 
@@ -17,7 +17,7 @@ elementsPanel.register(Button, ElementsPanelButton);
 
         <div v-for="Component in elementsPanel.implementations.keys()">
             <component :is="elementsPanel.implementations.get(Component)" @click="() => {
-                elementsStore.elements.push(new Component()); console.log(elements)
+                elementsStore.elements.push(new Component());
             }" />
         </div>
     </div>
