@@ -4,6 +4,16 @@ import EditingCanvas from '@/components/layout/editing-canvas/EditingCanvas.vue'
 </script>
 
 <template>
-    <ElementsPanel />
-    <EditingCanvas />
+    <div class="container">
+        <ElementsPanel />
+        <EditingCanvas />
+    </div>
 </template>
+
+<style scoped>
+.container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+}
+</style>

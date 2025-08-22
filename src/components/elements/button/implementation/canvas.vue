@@ -8,5 +8,6 @@
 <style scoped>
 button {
     padding: 52px 52px;
+    position: absolute;
 }
 </style>

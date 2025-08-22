@@ -13,13 +13,25 @@ editingCanvas.register(Button, CanvasButton);
 </script>
 
 <template>
-    <p>this is editing canvas</p>
-    <p>{{ elementsStore.elements }}</p>
 
-    <div v-for="element in elementsStore.elements">
-        <component :is="editingCanvas.implementations.get(element.constructor)" @click="() => {
-            elementsStore.elements.push(new Component()); console.log(elements)
-        }" />
+    <div class="editing-canvas">
+
+        <div v-for="element in elementsStore.elements">
+            <component :is="editingCanvas.implementations.get(element.constructor)" @click="() => {
+                elementsStore.elements.push(new Component()); console.log(elements)
+            }" />
+        </div>
     </div>
 
 </template>
+
+
+<style scoped>
+.editing-canvas {
+    width: 70%;
+    height: 100%;
+    background: grey;
+
+    overflow: hidden;
+}
+</style>

@@ -13,13 +13,21 @@ elementsPanel.register(Button, ElementsPanelButton);
 </script>
 
 <template>
-    <p>this is elements panel</p>
-    <p>{{ elementsStore.elements }}</p>
+    <div class="elements-panel">
 
-    <div v-for="Component in elementsPanel.implementations.keys()">
-        <component :is="elementsPanel.implementations.get(Component)" @click="() => {
-            elementsStore.elements.push(new Component()); console.log(elements)
-        }" />
+        <div v-for="Component in elementsPanel.implementations.keys()">
+            <component :is="elementsPanel.implementations.get(Component)" @click="() => {
+                elementsStore.elements.push(new Component()); console.log(elements)
+            }" />
+        </div>
     </div>
 
 </template>
+
+<style scoped>
+.elements-panel {
+    background: red;
+    width: 15%;
+    height: 100%;
+}
+</style>
