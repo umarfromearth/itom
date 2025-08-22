@@ -1,5 +1,5 @@
 <script setup>
-import Dashboard from './components/layout/Dashboard.vue';
+import Dashboard from './components/layout/dashboard/Dashboard.vue';
 </script>
 
 <template>

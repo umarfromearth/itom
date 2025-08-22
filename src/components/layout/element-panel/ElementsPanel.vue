@@ -5,9 +5,9 @@ import { useElementsStore } from '@/stores/global/elementsStore';
 const elementsPanel = new ElementsPanel();
 const elementsStore = useElementsStore();
 
-import ButtonPanel from "@/components/elements/button/implementation/renders/panel.vue"
-import Button from '@/components/elements/button/implementation/button';
-elementsPanel.register(Button, ButtonPanel);
+import ElementsPanelButton from "@/components/elements/button/implementation/panel.vue"
+import Button from '@/components/elements/button/button';
+elementsPanel.register(Button, ElementsPanelButton);
 
 
 </script>

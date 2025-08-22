@@ -5,8 +5,8 @@ import { useElementsStore } from '@/stores/global/elementsStore';
 const editingCanvas = new EditingCanvas();
 const elementsStore = useElementsStore();
 
-import CanvasButton from "@/components/elements/button/implementation/renders/canvas.vue"
-import Button from '@/components/elements/button/implementation/button';
+import CanvasButton from "@/components/elements/button/implementation/canvas.vue"
+import Button from '@/components/elements/button/button';
 editingCanvas.register(Button, CanvasButton);
 
 
