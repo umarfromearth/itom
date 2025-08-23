@@ -1,13 +1,8 @@
 <script setup>
+const { element: button } = defineProps(["element"]);
+console.log(button.properties.size.width)
 </script>
 
 <template>
-    <button>click me</button>
+    <button :class="button.name">{{ button.text }}</button>
 </template>
-
-<style scoped>
-button {
-    padding: 52px 52px;
-    position: absolute;
-}
-</style>

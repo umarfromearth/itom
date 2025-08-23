@@ -7,20 +7,38 @@ const elementsStore = useElementsStore();
 
 import CanvasButton from "@/components/elements/button/implementations/canvas.vue"
 import Button from '@/components/elements/button/button';
+import { onMounted, watch } from 'vue';
 editingCanvas.register(Button, CanvasButton);
+
+function focus(event) {
+    if (event.target.classList.contains("editing-canvas")) {
+        elementsStore.selected = null;
+    }
+}
+
+import { useCSSComplier } from '@/compilers/css/compiler';
+const css = useCSSComplier();
+
+onMounted(() => {
+    const style = document.createElement("style");
+    watch(css, () => {
+        style.innerText = css.value;
+    })
+    document.head.append(style);
+})
+
 
 
 </script>
 
 <template>
 
-    <div class="editing-canvas">
-
-        {{ elementsStore.selected }}
-        <div v-for="element in elementsStore.elements">
-            <component :is="editingCanvas.implementations.get(element.constructor)"
+    <div class="editing-canvas" @click="focus">
+        <!-- <span v-html="html"></span> -->
+        <template v-for="element in elementsStore.elements">
+            <component :is="editingCanvas.implementations.get(element.constructor)" :element="element"
                 @click="elementsStore.selected = element" />
-        </div>
+        </template>
     </div>
 
 </template>
@@ -33,5 +51,13 @@ editingCanvas.register(Button, CanvasButton);
     background: grey;
 
     overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.editing-canvas * {
+    position: absolute;
 }
 </style>
