@@ -1,9 +1,9 @@
 <script setup>
 import { ElementsPanel } from './panel';
-import { useElementsStore } from '@/stores/global/elementsStore';
+import { useLayersStore } from '@/stores/global/layersStore';
 
 const elementsPanel = new ElementsPanel();
-const elementsStore = useElementsStore();
+const layersStore = useLayersStore();
 
 import ElementsPanelButton from "@/components/elements/button/implementation/layers.vue"
 import Button from '@/components/elements/button/button';
@@ -14,11 +14,11 @@ elementsPanel.register(Button, ElementsPanelButton);
 
 <template>
     <p>this is elements panel</p>
-    <p>{{ elementsStore.elements }}</p>
+    <p>{{ layersStore.elements }}</p>
 
     <div v-for="Component in elementsPanel.implementations.keys()">
         <component :is="elementsPanel.implementations.get(Component)" @click="() => {
-            elementsStore.elements.push(new Component()); console.log(elements)
+            layersStore.elements.push(new Component()); console.log(elements)
         }" />
     </div>
 

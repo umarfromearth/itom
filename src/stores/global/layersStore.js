@@ -1,11 +1,11 @@
 import { defineStore } from "pinia";
 import { reactive, ref } from "vue";
 
-export const useElementsStore = defineStore("elements-store", () => {
-    const elements = reactive([]);
+export const useLayersStore = defineStore("layers-store", () => {
+    const layers = reactive([]);
     const selected = ref(null);
     return {
-        elements,
+        layers,
         selected,
     }
 })

@@ -1,9 +1,9 @@
 <script setup>
 import { EditingCanvas } from './canvas';
-import { useElementsStore } from '@/stores/global/elementsStore';
+import { useLayersStore } from '@/stores/global/layersStore';
 
 const editingCanvas = new EditingCanvas();
-const elementsStore = useElementsStore();
+const layersStore = useLayersStore();
 
 import CanvasButton from "@/components/elements/button/implementations/canvas.vue"
 import Button from '@/components/elements/button/button';
@@ -13,7 +13,7 @@ editingCanvas.register(Button, CanvasButton);
 
 function focus(event) {
     if (event.target.classList.contains("editing-canvas")) {
-        elementsStore.selected = null;
+        layersStore.selected = null;
     }
 }
 
@@ -50,10 +50,9 @@ function move(event) {
 <template>
 
     <div class="editing-canvas" @click="focus" @mousedown="move">
-        <!-- <span v-html="html"></span> -->
-        <template v-for="element in elementsStore.elements">
-            <component :is="editingCanvas.implementations.get(element.constructor)" :element="element"
-                @click="elementsStore.selected = element" />
+        <template v-for="layer in layersStore.layers">
+            <component :is="editingCanvas.implementations.get(layer.constructor)" :layer="layer"
+                @click="layersStore.selected = layer" />
         </template>
     </div>
 

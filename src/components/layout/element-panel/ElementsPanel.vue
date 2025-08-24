@@ -1,9 +1,9 @@
 <script setup>
 import { ElementsPanel } from './panel';
-import { useElementsStore } from '@/stores/global/elementsStore';
+import { useLayersStore } from '@/stores/global/layersStore';
 
 const elementsPanel = new ElementsPanel();
-const elementsStore = useElementsStore();
+const layersStore = useLayersStore();
 
 import Button from '@/components/elements/button/button';
 elementsPanel.register(Button);
@@ -14,7 +14,7 @@ elementsPanel.register(Button);
 <template>
     <div class="elements-panel">
         <div v-for="Element of elementsPanel.registry">
-            <button class="element" @click="elementsStore.elements.push(new Element())">
+            <button class="element" @click="layersStore.layers.push(new Element())">
                 add {{ Element.name }}
             </button>
         </div>

@@ -1,17 +1,17 @@
 import { onMounted, ref, watch } from "vue";
-import { useElementsStore } from "@/stores/global/elementsStore";
+import { useLayersStore } from "@/stores/global/layersStore";
 
 
 export function useCSSComplier() {
-    const elementsStore = useElementsStore();
+    const layersStore = useLayersStore();
     const css = ref("");
-    watch(elementsStore.elements, () => {
+    watch(layersStore.layers, () => {
         css.value = "";
-        for (let element of elementsStore.elements) {
+        for (let layer of layersStore.layers) {
             let ruleset = "";
-            for (let prop in element.properties) {
+            for (let prop in layer.properties) {
                 if (prop == "size") {
-                    ruleset = `.${element.name}{width: ${element.properties.size.width}px; height: ${element.properties.size.height}px; }`
+                    ruleset = `.${layer.name}{width: ${layer.properties.size.width}px; height: ${layer.properties.size.height}px; }`
                 }
             }
             css.value += ruleset;

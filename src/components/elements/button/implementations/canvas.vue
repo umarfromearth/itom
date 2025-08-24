@@ -1,5 +1,5 @@
 <script setup>
-const { element: button } = defineProps(["element"]);
+const { layer: button } = defineProps(["layer"]);
 </script>
 
 <template>
