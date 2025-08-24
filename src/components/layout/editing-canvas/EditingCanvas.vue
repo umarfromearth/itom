@@ -7,6 +7,7 @@ const elementsStore = useElementsStore();
 
 import CanvasButton from "@/components/elements/button/implementations/canvas.vue"
 import Button from '@/components/elements/button/button';
+
 import { onMounted, watch } from 'vue';
 editingCanvas.register(Button, CanvasButton);
 
@@ -28,12 +29,27 @@ onMounted(() => {
 })
 
 
+function move(event) {
+    const target = event.target;
+    let clickX = event.clientX - target.getBoundingClientRect().x;
+    let clickY = event.clientY - target.getBoundingClientRect().y;
+
+    document.onmousemove = function (e) {
+        target.style.left = e.clientX - clickX + "px";
+        target.style.top = e.clientY - clickY + "px";
+
+        document.onmouseup = function () {
+            document.onmousemove = null;
+        }
+    }
+}
+
 
 </script>
 
 <template>
 
-    <div class="editing-canvas" @click="focus">
+    <div class="editing-canvas" @click="focus" @mousedown="move">
         <!-- <span v-html="html"></span> -->
         <template v-for="element in elementsStore.elements">
             <component :is="editingCanvas.implementations.get(element.constructor)" :element="element"

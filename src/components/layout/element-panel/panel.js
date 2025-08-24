@@ -1,9 +1,10 @@
 export class ElementsPanel {
+    static name = "button"
     constructor() {
-        this.implementations = new Map()
+        this.registry = [];
     }
 
-    register(name, render) {
-        this.implementations.set(name, render);
+    register(element) {
+        this.registry.push(element);
     }
 }

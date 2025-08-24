@@ -1,6 +1,5 @@
 <script setup>
 const { element: button } = defineProps(["element"]);
-console.log(button.properties.size.width)
 </script>
 
 <template>
