@@ -8,13 +8,7 @@ export function useCSSComplier() {
     watch(layersStore.layers, () => {
         css.value = "";
         for (let layer of layersStore.layers) {
-            let ruleset = "";
-            for (let prop in layer.properties) {
-                if (prop == "size") {
-                    ruleset = `.${layer.name}{width: ${layer.properties.size.width}px; height: ${layer.properties.size.height}px; }`
-                }
-            }
-            css.value += ruleset;
+            css.value += layer.css();
         }
     })
     return css;
