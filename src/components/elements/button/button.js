@@ -6,10 +6,14 @@ export default class Button {
 
         this.name = this.generateRandomName();
 
-        this.properties = {
-            size: {
-                width: 200,
-                height: 200,
+        this.states = {
+            default: {
+                properties: {
+                    size: {
+                        width: 200,
+                        height: 200,
+                    }
+                }
             }
         }
 
@@ -20,15 +24,15 @@ export default class Button {
     }
 
     css() {
-        let ruleset = `.${this.name}{`
-        for (let property of Object.keys(this.properties)) {
+        let compiled = `.${this.name}{`;
+        for (let property of Object.keys(this.states.default.properties)) {
             let decleration = "";
             if (property == "size") {
-                decleration = `width: ${this.properties[property].width}px; height: ${this.properties[property].height}px`;
+                decleration = `width: ${this.states["default"].properties.size.width}px; height: ${this.states["default"].properties.size.height}px`;
             }
-            ruleset += decleration;
+            compiled += decleration;
         }
-        return ruleset + "}";
+        return compiled + "}";
     }
 
 }

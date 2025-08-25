@@ -9,13 +9,15 @@ const layersStore = useLayersStore();
         <div v-if="layersStore.selected">
             <div>
                 <label for="">width: </label>
-                <input type="number" placeholder="width" v-model="layersStore.selected.properties.size.width">
+                <input type="number" placeholder="width"
+                    v-model="layersStore.selected.states.default.properties.size.width">
             </div>
 
 
             <div>
                 <label for="">height: </label>
-                <input type="number" placeholder="height" v-model="layersStore.selected.properties.size.height">
+                <input type="number" placeholder="height"
+                    v-model="layersStore.selected.states.default.properties.size.height">
             </div>
         </div>
         <div v-else>
@@ -27,7 +29,6 @@ const layersStore = useLayersStore();
 
 <style scoped>
 .properties-panel {
-    width: 15%;
     height: 100%;
     background-color: blue;
 }

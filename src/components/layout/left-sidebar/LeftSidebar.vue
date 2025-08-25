@@ -26,9 +26,14 @@ const activeTab = ref("ElementsPanel");
     width: 15%;
     height: 100%;
     background: green;
+
+
+    display: flex;
+    flex-direction: column;
 }
 
 .active-panel {
-    height: 100%;
+    flex-grow: 1;
+
 }
 </style>
