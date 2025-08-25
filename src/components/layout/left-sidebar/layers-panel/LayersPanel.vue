@@ -25,6 +25,9 @@ const layersStore = useLayersStore();
 <style scope>
 .layers-panel {
     overflow: auto;
+    height: 100%;
+    width: 100%;
+    background: orange;
 }
 
 .layers {}

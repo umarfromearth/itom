@@ -25,8 +25,7 @@ elementsPanel.register(Button);
 <style scoped>
 .elements-panel {
     background: red;
-    /* width: 15%; */
-    /* height: 100%; */
+    height: 100%;
 }
 
 .element {
