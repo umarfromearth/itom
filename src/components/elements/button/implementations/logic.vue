@@ -35,7 +35,9 @@ const layersStore = useLayersStore();
 
         <div>
             to:
-            <select name="" id=""></select>
+            <select name="" id="">
+                <option value="" v-for="state in Object.keys(layersStore.selected.states)">{{ state }}</option>
+            </select>
         </div>
     </div>
 </template>

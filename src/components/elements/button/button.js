@@ -6,12 +6,30 @@ export default class Button {
 
         this.name = this.generateRandomName();
 
+        this.activeState = "default";
+
         this.states = {
             default: {
                 properties: {
                     size: {
                         width: 200,
                         height: 200,
+                    }
+                }
+            },
+            ticked: {
+                properties: {
+                    size: {
+                        width: 300,
+                        height: 300,
+                    }
+                }
+            },
+            transformed: {
+                properties: {
+                    size: {
+                        width: 700,
+                        height: 500,
                     }
                 }
             }
@@ -25,10 +43,10 @@ export default class Button {
 
     css() {
         let compiled = `.${this.name}{`;
-        for (let property of Object.keys(this.states.default.properties)) {
+        for (let property of Object.keys(this.states[this.activeState].properties)) {
             let decleration = "";
             if (property == "size") {
-                decleration = `width: ${this.states["default"].properties.size.width}px; height: ${this.states["default"].properties.size.height}px`;
+                decleration = `width: ${this.states[this.activeState].properties.size.width}px; height: ${this.states[this.activeState].properties.size.height}px`;
             }
             compiled += decleration;
         }
