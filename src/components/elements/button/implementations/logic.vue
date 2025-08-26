@@ -41,7 +41,7 @@ import { ChangeState } from '../button';
 
         <div>
             <button
-                @click="button.actions.click.push(new ChangeState({ operation, element, state })); console.log(button)">add</button>
+                @click="button.actions.click.push(new ChangeState({ button, operation, element, state })); console.log(button)">add</button>
         </div>
     </div>
 </template>

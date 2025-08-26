@@ -30,7 +30,6 @@ export default class Button {
 
         let compiled = `.${this.name} { ${this.states[this.activeState].compile()} }`;
 
-
         for (let action of this.actions.click) {
             compiled += action.compile();
         }
@@ -54,8 +53,8 @@ class State {
 }
 
 export class ChangeState {
-    constructor({ operation, element, state }) {
-        [this.operation, this.element, this.state] = [operation, element, state];
+    constructor({ button, operation, element, state }) {
+        [this.button, this.operation, this.element, this.state] = [button, operation, element, state];
     }
 
     compile() {
@@ -66,7 +65,7 @@ export class ChangeState {
                 animation-play-state: paused; 
             }
 
-            .${this.element.name}:active{
+            .editing-canvas:has(.${this.button.name}:active) .${this.element.name}{
                 animation-play-state: running;
             }
                 
