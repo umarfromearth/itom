@@ -5,13 +5,12 @@ import { ref } from 'vue';
 const { layer: button } = defineProps(["layer"])
 
 const operation = ref("change-state");
-const operationOf = ref(button.name);
-const operationFrom = ref();
-const operationTo = ref();
-
-
+const element = ref(button);
+const state = ref("default");
 
 const layersStore = useLayersStore();
+
+import { ChangeState } from '../button';
 
 </script>
 
@@ -27,17 +26,22 @@ const layersStore = useLayersStore();
         </div>
 
         <div>
-            of:
-            <select name="" id="">
-                <option value="" v-for="layer in layersStore.layers">{{ layer.name }}</option>
+            element:
+            <select name="" id="" v-model="element">
+                <option :value="layer" v-for="layer in layersStore.layers">{{ layer.name }}</option>
             </select>
         </div>
 
         <div>
-            to:
-            <select name="" id="">
-                <option value="" v-for="state in Object.keys(layersStore.selected.states)">{{ state }}</option>
+            state:
+            <select name="" id="" v-model="state">
+                <option :value="state" v-for="state in Object.keys(layersStore.selected.states)">{{ state }}</option>
             </select>
+        </div>
+
+        <div>
+            <button
+                @click="button.actions.click.push(new ChangeState({ operation, element, state })); console.log(button)">add</button>
         </div>
     </div>
 </template>

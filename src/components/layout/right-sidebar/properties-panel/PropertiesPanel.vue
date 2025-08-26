@@ -16,14 +16,14 @@ const layersStore = useLayersStore();
             <div>
                 <label for="">width: </label>
                 <input type="number" placeholder="width"
-                    v-model="layersStore.selected.states[layersStore.selected.activeState].properties.size.width">
+                    v-model="layersStore.selected.states[layersStore.selected.activeState].width">
             </div>
 
 
             <div>
                 <label for="">height: </label>
                 <input type="number" placeholder="height"
-                    v-model="layersStore.selected.states[layersStore.selected.activeState].properties.size.height">
+                    v-model="layersStore.selected.states[layersStore.selected.activeState].height">
             </div>
         </div>
         <div v-else>
