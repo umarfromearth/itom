@@ -52,7 +52,7 @@ function move(event) {
     <div class="editing-canvas" @click="focus" @mousedown="move">
         <template v-for="layer in layersStore.layers">
             <component :is="editingCanvas.implementations.get(layer.constructor)" :layer="layer"
-                @click="layersStore.selected = layer" />
+                @mousedown="layersStore.selected = layer" :class="{ selected: layersStore.selected == layer }" />
         </template>
     </div>
 
@@ -74,5 +74,9 @@ function move(event) {
 
 .editing-canvas * {
     position: absolute;
+}
+
+.selected {
+    border: 3px solid rgb(0, 115, 255);
 }
 </style>
