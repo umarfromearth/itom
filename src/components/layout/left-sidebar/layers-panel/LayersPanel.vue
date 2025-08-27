@@ -10,7 +10,7 @@ const layersStore = useLayersStore();
     <div class="layers-panel">
         <p>this is layers panel</p>
 
-        <div v-for="layer in layersStore.layers">
+        <div v-for="layer in layersStore.layers.slice().reverse()">
             <ul class="layers">
                 <li class="layer" @click="layersStore.selected = layer"
                     :class="{ selected: layersStore.selected == layer }">
