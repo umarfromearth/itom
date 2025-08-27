@@ -1,7 +1,7 @@
 
-export default class Button {
+export default class ToggleButton {
 
-    static name = "button"
+    static name = "toggle-button"
 
     constructor(text) {
         this.text = "click me";
@@ -30,7 +30,7 @@ export default class Button {
 
     css() {
 
-        let compiled = `.${this.name} { ${this.states[this.activeState].compile()} }`;
+        let compiled = `#${this.name} { ${this.states[this.activeState].compile()} }`;
 
         for (let action of this.actions.click) {
             compiled += action.compile();

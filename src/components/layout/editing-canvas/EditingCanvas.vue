@@ -7,9 +7,13 @@ const layersStore = useLayersStore();
 
 import CanvasButton from "@/components/elements/button/implementations/canvas.vue"
 import Button from '@/components/elements/button/button';
+editingCanvas.register(Button, CanvasButton);
+
+import CanvasToggleButton from "@/components/elements/toggle-button/implementations/canvas.vue"
+import ToggleButton from '@/components/elements/toggle-button/toggle-button';
+editingCanvas.register(ToggleButton, CanvasToggleButton);
 
 import { onMounted, watch } from 'vue';
-editingCanvas.register(Button, CanvasButton);
 
 function focus(event) {
     if (event.target.classList.contains("editing-canvas")) {
@@ -30,7 +34,15 @@ onMounted(() => {
 
 
 function move(event) {
-    const target = event.target;
+    let target = event.target;
+
+    // if the root element has chidlren and click take places on children
+    // then as they dont have postion absolute we need to find closest
+    // ancestor with postion absolute
+    while (getComputedStyle(target).position != "absolute") {
+        target = target.parentElement;
+    }
+
     let clickX = event.clientX - target.getBoundingClientRect().x;
     let clickY = event.clientY - target.getBoundingClientRect().y;
 
@@ -72,7 +84,7 @@ function move(event) {
     justify-content: center;
 }
 
-.editing-canvas * {
+.editing-canvas>* {
     position: absolute;
 }
 

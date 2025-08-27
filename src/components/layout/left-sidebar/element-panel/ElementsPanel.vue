@@ -6,7 +6,10 @@ const elementsPanel = new ElementsPanel();
 const layersStore = useLayersStore();
 
 import Button from '@/components/elements/button/button';
+import ToggleButton from "@/components/elements/toggle-button/toggle-button";
+
 elementsPanel.register(Button);
+elementsPanel.register(ToggleButton);
 
 
 </script>
