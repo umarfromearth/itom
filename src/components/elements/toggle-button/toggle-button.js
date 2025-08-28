@@ -30,7 +30,7 @@ export default class ToggleButton {
 
     css() {
 
-        let compiled = `#${this.name} { ${this.states[this.activeState].compile()} }`;
+        let compiled = `.${this.name}.properties-panel { ${this.states[this.activeState].compile()} }`;
 
         for (let action of this.actions.click) {
             compiled += action.compile();

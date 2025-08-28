@@ -30,7 +30,7 @@ export default class Button {
 
     css() {
 
-        let compiled = `.${this.name} { ${this.states[this.activeState].compile()} }`;
+        let compiled = `.${this.name}.properties-panel { ${this.states[this.activeState].compile()} }`;
 
         for (let action of this.actions.click) {
             compiled += action.compile();
@@ -49,7 +49,7 @@ class State {
     }
 
     compile() {
-        return `width: ${this.width}px; height: ${this.height}px`;
+        return `width: ${this.width}px; height: ${this.height}px;`;
     }
 
 }
