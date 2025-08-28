@@ -34,14 +34,7 @@ onMounted(() => {
 
 
 function move(event) {
-    let target = event.target;
-
-    // if the root element has chidlren and click take places on children
-    // then as they dont have postion absolute we need to find closest
-    // ancestor with postion absolute
-    while (getComputedStyle(target).position != "absolute") {
-        target = target.parentElement;
-    }
+    let target = event.target.closest(".root");
 
     let clickX = event.clientX - target.getBoundingClientRect().x;
     let clickY = event.clientY - target.getBoundingClientRect().y;
