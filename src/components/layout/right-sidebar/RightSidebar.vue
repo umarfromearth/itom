@@ -1,24 +1,12 @@
 <script setup>
-import { ref } from "vue";
 
 import PropertiesPanel from "./properties-panel/PropertiesPanel.vue";
-import LogicsPanel from "./logics-panel.vue/LogicsPanel.vue";
 
-const tabs = { PropertiesPanel, LogicsPanel }
-const activeTab = ref("PropertiesPanel");
 </script>
 
 <template>
     <div class="right-sidebar">
-        <div>
-            <button @click="activeTab = 'PropertiesPanel'">properties</button>
-            <button @click="activeTab = 'LogicsPanel'">logics</button>
-        </div>
-
-        <div class="active-panel">
-            <component :is="tabs[activeTab]" />
-        </div>
-
+        <PropertiesPanel />
     </div>
 </template>
 

@@ -10,7 +10,7 @@ const state = ref("default");
 
 const layersStore = useLayersStore();
 
-import { ChangeState } from '../button';
+// import { ChangeState } from '../button';
 
 </script>
 
@@ -39,9 +39,9 @@ import { ChangeState } from '../button';
             </select>
         </div>
 
-        <div>
+        <!-- <div>
             <button
                 @click="button.actions.click.push(new ChangeState({ button, operation, element, state })); console.log(button)">add</button>
-        </div>
+        </div> -->
     </div>
 </template>

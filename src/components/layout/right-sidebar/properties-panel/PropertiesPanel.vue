@@ -15,16 +15,15 @@ const layersStore = useLayersStore();
             </div>
             <div>
                 <label for="">width: </label>
-                <input type="number" placeholder="width"
-                    v-model="layersStore.selected.states[layersStore.selected.activeState].width">
+                <input type="text" placeholder="width"
+                    v-model="layersStore.selected.states[layersStore.selected.activeState].rulesets['.% button'].width">
             </div>
 
-
-            <div>
+            <!-- <div>
                 <label for="">height: </label>
                 <input type="number" placeholder="height"
                     v-model="layersStore.selected.states[layersStore.selected.activeState].height">
-            </div>
+            </div> -->
         </div>
         <div v-else>
             <p>show properties of editing canvas</p>
