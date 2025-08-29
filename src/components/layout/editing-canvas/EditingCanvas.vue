@@ -82,6 +82,6 @@ function move(event) {
 }
 
 .selected {
-    border: 3px solid rgb(0, 115, 255);
+    outline: 3px solid rgb(0, 115, 255);
 }
 </style>
