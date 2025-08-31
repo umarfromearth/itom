@@ -56,32 +56,12 @@ function linkEnd(event) {
     console.log(links)
 }
 
-function move(event) {
-    if (event.target.classList.contains("logic-block")) {
-        const snap = 20;
 
-        let target = event.target.closest(".root");
-
-        if (target) {
-            let clickX = event.clientX - target.getBoundingClientRect().x;
-            let clickY = event.clientY - target.getBoundingClientRect().y;
-
-            document.onmousemove = function (e) {
-                target.style.left = ((e.clientX - clickX)) - ((e.clientX - clickX) % snap) + "px";
-                target.style.top = ((e.clientY - clickY)) - ((e.clientY - clickY) % snap) + "px";
-
-                document.onmouseup = function () {
-                    document.onmousemove = null;
-                }
-            }
-        }
-    }
-}
 
 </script>
 
 <template>
-    <div class="logic-canvas" @mousedown="move" @mousemove="linkMove">
+    <div class="logic-canvas" @mousemove="linkMove">
         <div class="editor">
             <svg xmlns='https://www.w3.org/2000/svg' ref="svg">
                 <path v-for="link in links" :d="' M ' + link.sx + ' ' + link.sy + ' L ' + link.ex + ' ' + link.ey"

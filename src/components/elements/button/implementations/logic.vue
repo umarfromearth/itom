@@ -1,12 +1,31 @@
 <script setup>
 const { layer: button } = defineProps(["layer"])
+
+function move(event) {
+    const snap = 20;
+    let target = event.target.closest(".root");
+
+    if (target) {
+        let clickX = event.clientX - target.getBoundingClientRect().x;
+        let clickY = event.clientY - target.getBoundingClientRect().y;
+
+        document.onmousemove = function (e) {
+            target.style.left = ((e.clientX - clickX)) - ((e.clientX - clickX) % snap) + "px";
+            target.style.top = ((e.clientY - clickY)) - ((e.clientY - clickY) % snap) + "px";
+
+            document.onmouseup = function () {
+                document.onmousemove = null;
+            }
+        }
+    }
+}
+
 </script>
 
 <template>
     <div class="root">
-        <button class="logic-block"></button>
-        <div class="node" @mouseup="$emit('link-end', { ex: $event.clientX, ey: $event.clientY, e: button })"
-            @mousedown="$emit('link-start', { sx: $event.clientX, sy: $event.clientY, s: button })"></div>
+        <button class="logic-block" @mousedown="move"></button>
+        <div class="node"></div>
     </div>
 </template>
 
