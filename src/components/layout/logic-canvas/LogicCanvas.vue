@@ -1,6 +1,5 @@
 <script setup>
-import { reactive, ref } from 'vue';
-import Binding from './Binding.vue';
+import { onMounted, reactive, ref, useTemplateRef } from 'vue';
 import { useLayersStore } from '@/stores/global/layersStore';
 
 import ButtonLogic from '@/components/elements/button/implementations/logic.vue';
@@ -9,63 +8,71 @@ const links = reactive([]);
 
 const layersStore = useLayersStore();
 
-// class Link {
 
-//     constructor() {
-//         this.blank = true;
-//     }
+class Link {
 
-//     start(event) {
-//         this.sx = event.clientX;
-//         this.sy = event.clientY;
-//         this.s = event.target;
-//     }
+    constructor() {
+        this.blank = true;
+    }
 
-//     move(event) {
-//         if (this.blank) {
-//             this.ex = event.clientX;
-//             this.ey = event.clientY;
-//         }
-//     }
+    start(event) {
+        this.sx = event.sx - svg.value.getBoundingClientRect().x;
+        this.sy = event.sy - svg.value.getBoundingClientRect().y;
+        this.s = event.s;
+    }
 
-//     end(event) {
-//         this.e = event.target;
-//         this.blank = false;
+    move(event) {
+        if (this.blank) {
+            this.ex = event.clientX - svg.value.getBoundingClientRect().x;
+            this.ey = event.clientY - svg.value.getBoundingClientRect().y;
+        }
+    }
 
-//     }
-// }
+    end(event) {
+        this.e = event.e;
+        this.blank = false;
+    }
+}
+
+const svg = useTemplateRef("svg");
+onMounted(() => {
+    console.log(svg.value)
+})
 
 
-// function start(event) {
-//     links.push(new Link())
-//     links.at(-1).start(event)
-// }
+function linkStart(event) {
+    links.push(new Link())
+    links.at(-1).start(event)
+}
 
-// function move(event) {
-//     if (links.length > 0)
-//         links.at(-1).move(event);
-// }
+function linkMove(event) {
+    if (links.length > 0)
+        links.at(-1).move(event);
+}
 
-// function create(event) {
-//     links.at(-1).end(event)
+function linkEnd(event) {
+    links.at(-1).end(event)
 
-//     console.log(links)
-// }
+    console.log(links)
+}
 
 function move(event) {
-    const snap = 20;
-    let target = event.target.closest(".node");
+    if (event.target.classList.contains("logic-block")) {
+        const snap = 20;
 
-    if (target) {
-        let clickX = event.clientX - target.getBoundingClientRect().x;
-        let clickY = event.clientY - target.getBoundingClientRect().y;
+        let target = event.target.closest(".root");
 
-        document.onmousemove = function (e) {
-            target.style.left = ((e.clientX - clickX)) - ((e.clientX - clickX) % snap) + "px";
-            target.style.top = ((e.clientY - clickY)) - ((e.clientY - clickY) % snap) + "px";
+        if (target) {
+            let clickX = event.clientX - target.getBoundingClientRect().x;
+            let clickY = event.clientY - target.getBoundingClientRect().y;
 
-            document.onmouseup = function () {
-                document.onmousemove = null;
+            document.onmousemove = function (e) {
+                target.style.left = ((e.clientX - clickX)) - ((e.clientX - clickX) % snap) + "px";
+                target.style.top = ((e.clientY - clickY)) - ((e.clientY - clickY) % snap) + "px";
+
+                document.onmouseup = function () {
+                    document.onmousemove = null;
+                }
             }
         }
     }
@@ -74,13 +81,14 @@ function move(event) {
 </script>
 
 <template>
-    <div class="logic-canvas" @mousedown="move">
+    <div class="logic-canvas" @mousedown="move" @mousemove="linkMove">
         <div class="editor">
-            <svg xmlns='https://www.w3.org/2000/svg' v-for="link in links" :width="link.ex - link.sx"
-                :height="link.ey - link.sy" :style="{ left: link.sx + 'px', top: link.sy + 'px' }">
-                <path :d="'M 0 0 ' + 'L ' + (link.ex - link.sx) + ' ' + (link.ey - link.sy)" stroke="black" />
+            <svg xmlns='https://www.w3.org/2000/svg' ref="svg">
+                <path v-for="link in links" :d="' M ' + link.sx + ' ' + link.sy + ' L ' + link.ex + ' ' + link.ey"
+                    stroke="black" />
             </svg>
-            <component v-for="layer in layersStore.layers" :is="ButtonLogic" />
+            <component v-for="layer in layersStore.layers" :is="ButtonLogic" @link-start="linkStart" :layer="layer"
+                @link-end="linkEnd" />
         </div>
 
     </div>
@@ -102,7 +110,8 @@ function move(event) {
 }
 
 svg {
-    position: absolute;
+    width: 100%;
+    height: 100%;
     left: 0;
     top: 0;
 }
