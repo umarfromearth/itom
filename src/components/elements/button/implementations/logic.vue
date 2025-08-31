@@ -1,5 +1,47 @@
 <script setup>
+import { useLinksStore } from '@/stores/global/linksStore';
+
 const { layer: button } = defineProps(["layer"])
+
+const linksStore = useLinksStore();
+
+class Link {
+
+    constructor() {
+        this.blank = true;
+    }
+
+    start(block, node) {
+        this.sx = node.getBoundingClientRect().x;
+        this.sy = node.getBoundingClientRect().y;
+        this.s = block;
+    }
+
+    move(event) {
+        if (this.blank) {
+            this.ex = event.clientX;
+            this.ey = event.clientY;
+        }
+    }
+
+    end(block, node) {
+        this.e = block;
+        this.ex = node.getBoundingClientRect().x;
+        this.ey = node.getBoundingClientRect().y;
+        this.blank = false;
+    }
+}
+
+
+function startLink(event) {
+    linksStore.links.push(new Link());
+    linksStore.links.at(-1).start(button, event.target);
+}
+
+function endLink(event) {
+    linksStore.links.at(-1).end(button, event.target)
+    console.log(linksStore.links)
+}
 
 function move(event) {
     const snap = 20;
@@ -13,6 +55,20 @@ function move(event) {
             target.style.left = ((e.clientX - clickX)) - ((e.clientX - clickX) % snap) + "px";
             target.style.top = ((e.clientY - clickY)) - ((e.clientY - clickY) % snap) + "px";
 
+            // let filtered = linksStore.links.filter((link) => link.)
+
+            for (let link of linksStore.links) {
+                if (link.s == button) {
+                    link.sx = event.target.closest('.root').querySelector(".node").getBoundingClientRect().x
+                    link.sy = event.target.closest('.root').querySelector(".node").getBoundingClientRect().y
+                }
+
+                if (link.e == button) {
+                    link.ex = event.target.closest('.root').querySelector(".node").getBoundingClientRect().x
+                    link.ey = event.target.closest('.root').querySelector(".node").getBoundingClientRect().y
+                }
+            }
+
             document.onmouseup = function () {
                 document.onmousemove = null;
             }
@@ -25,7 +81,7 @@ function move(event) {
 <template>
     <div class="root">
         <button class="logic-block" @mousedown="move"></button>
-        <div class="node"></div>
+        <div class="node" @mousedown="startLink" @mouseup="endLink"></div>
     </div>
 </template>
 
