@@ -12,7 +12,7 @@ const d = ((link) => {
 
     // C P1 P2 E
 
-    return `M ${link.sx - x} ${link.sy - y} C ${link.sx - x + 200} ${link.sy - y} ${link.ex - x - 200} ${link.ey - y} ${link.ex - x} ${link.ey - y}`;
+    return `M ${link.sx - x} ${link.sy - y} C ${(link.sx - x + (Math.abs(link.ex - link.sx)) / 2)} ${link.sy - y} ${(link.ex - x - (Math.abs(link.ex - link.sx)) / 2)} ${link.ey - y} ${link.ex - x} ${link.ey - y}`;
 })
 </script>
 
