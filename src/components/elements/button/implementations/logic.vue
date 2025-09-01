@@ -44,7 +44,7 @@ function endLink(event) {
 }
 
 function move(event) {
-    const snap = 1;
+    const snap = 20;
     let target = event.target.closest(".root");
 
     if (target) {
