@@ -44,8 +44,9 @@ function endLink(event) {
 }
 
 function move(event) {
-    const snap = 20;
+    const snap = 1;
     let target = event.target.closest(".root");
+
 
     if (target) {
         let clickX = event.clientX - target.getBoundingClientRect().x;
@@ -84,7 +85,10 @@ function move(event) {
 <template>
     <div class="root">
         <button class="logic-block" @mousedown="move"></button>
-        <div class="node" @mousedown="startLink" @mouseup="endLink"></div>
+        <div class="node top"></div>
+        <div class="node bottom"></div>
+        <div class="node right" @mousedown="startLink" @mouseup="endLink"></div>
+        <div class="node left"></div>
     </div>
 </template>
 
@@ -92,8 +96,6 @@ function move(event) {
 .root {
     position: absolute;
 
-    display: flex;
-    align-items: center;
 }
 
 .logic-block {
@@ -103,12 +105,42 @@ function move(event) {
     border: none;
 }
 
+.node.top {
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.node.left {
+    top: 50%;
+    left: 0;
+    transform: translate(-50%, -50%);
+}
+
+.node.right {
+    top: 50%;
+    right: 0;
+    transform: translate(50%, -50%);
+}
+
+.node.bottom {
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 50%);
+}
+
+
 .node {
     width: 15px;
     height: 15px;
     background-color: black;
     border-radius: 100%;
     position: absolute;
-    right: -7.5px;
 }
+
+/* 
+.node.top {
+    top: -7.5px;
+    right: -7.5px;
+} */
 </style>
