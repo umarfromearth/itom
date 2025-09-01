@@ -10,6 +10,8 @@ import ButtonLogic from '@/components/elements/button/implementations/logic.vue'
 
 const layersStore = useLayersStore();
 
+import LinksBoard from './LinksBoard.vue/LinksBoard.vue';
+
 
 
 
@@ -21,10 +23,12 @@ const layersStore = useLayersStore();
         <div class="editor">
 
             <!-- {{ linksStore.links }} -->
-            <svg xmlns='https://www.w3.org/2000/svg' ref="svg">
+            <!-- <svg xmlns='https://www.w3.org/2000/svg' ref="svg">
                 <path v-for="link in linksStore.links"
                     :d="' M ' + link.sx + ' ' + link.sy + ' L ' + link.ex + ' ' + link.ey" stroke="black" />
-            </svg>
+            </svg> -->
+
+            <LinksBoard />
             <component v-for="layer in layersStore.layers" :is="ButtonLogic" :layer="layer" />
         </div>
 

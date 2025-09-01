@@ -12,8 +12,8 @@ class Link {
     }
 
     start(block, node) {
-        this.sx = node.getBoundingClientRect().x;
-        this.sy = node.getBoundingClientRect().y;
+        this.sx = (node.getBoundingClientRect().x + node.getBoundingClientRect().width / 2);
+        this.sy = node.getBoundingClientRect().y + node.getBoundingClientRect().height / 2;
         this.s = block;
     }
 
@@ -26,8 +26,8 @@ class Link {
 
     end(block, node) {
         this.e = block;
-        this.ex = node.getBoundingClientRect().x;
-        this.ey = node.getBoundingClientRect().y;
+        this.ex = node.getBoundingClientRect().x + node.getBoundingClientRect().width / 2;
+        this.ey = node.getBoundingClientRect().y + node.getBoundingClientRect().height / 2;
         this.blank = false;
     }
 }
@@ -44,7 +44,7 @@ function endLink(event) {
 }
 
 function move(event) {
-    const snap = 20;
+    const snap = 1;
     let target = event.target.closest(".root");
 
     if (target) {
@@ -59,13 +59,16 @@ function move(event) {
 
             for (let link of linksStore.links) {
                 if (link.s == button) {
-                    link.sx = event.target.closest('.root').querySelector(".node").getBoundingClientRect().x
-                    link.sy = event.target.closest('.root').querySelector(".node").getBoundingClientRect().y
+                    const node = event.target.closest('.root').querySelector(".node");
+                    link.sx = node.getBoundingClientRect().x + node.getBoundingClientRect().width / 2;
+                    link.sy = node.getBoundingClientRect().y + node.getBoundingClientRect().height / 2;
                 }
 
                 if (link.e == button) {
-                    link.ex = event.target.closest('.root').querySelector(".node").getBoundingClientRect().x
-                    link.ey = event.target.closest('.root').querySelector(".node").getBoundingClientRect().y
+                    const node = event.target.closest('.root').querySelector(".node");
+
+                    link.ex = node.getBoundingClientRect().x + node.getBoundingClientRect().width / 2;
+                    link.ey = node.getBoundingClientRect().y + node.getBoundingClientRect().height / 2;
                 }
             }
 
