@@ -1,5 +1,6 @@
 <script setup>
 import { useLinksStore } from '@/stores/global/linksStore';
+import { ref } from 'vue';
 
 const { layer: button } = defineProps(["layer"])
 
@@ -11,6 +12,7 @@ class Link {
         this.blank = true;
         this.startNode = "";
         this.endNode = "";
+        this.self = false;
     }
 
     start(block, node, start) {
@@ -33,15 +35,33 @@ class Link {
         this.ey = node.getBoundingClientRect().y + node.getBoundingClientRect().height / 2;
         this.blank = false;
         this.endNode = end;
+    }
 
-        // defining the relation between start and end blocks
-        for (let relation of linksStore.relations) {
-            if (relation.from == this.s.constructor.name && relation.to == this.e.constructor.name) {
+}
 
-                this.menu = relation.menu;
-            }
+function selfLink() {
+
+    let added = linksStore.links.find((link) => {
+        if (link.self == true) {
+            if (link.s == button)
+                return link
         }
+        return false;
+    })
 
+    if (!added) {
+
+        let link = new Link();
+
+        [link.sx, link.sy] = [0, 0];
+        [link.ex, link.ey] = [0, 0];
+        [link.s, link.e] = [button, button];
+        link.blank = false;
+        link.self = true;
+
+        linksStore.links.push(link);
+
+        linksStore.selected = link;
     }
 
 }
@@ -69,17 +89,20 @@ function move(event) {
             target.style.top = ((e.clientY - clickY)) - ((e.clientY - clickY) % snap) + "px";
 
             for (let link of linksStore.links) {
-                if (link.s == button) {
-                    const node = event.target.closest('.root').querySelector('.' + link.startNode);
-                    link.sx = node.getBoundingClientRect().x + node.getBoundingClientRect().width / 2;
-                    link.sy = node.getBoundingClientRect().y + node.getBoundingClientRect().height / 2;
-                }
+                if (!link.self) {
 
-                if (link.e == button) {
-                    const node = event.target.closest('.root').querySelector('.' + link.endNode);
+                    if (link.s == button) {
+                        const node = event.target.closest('.root').querySelector('.' + link.startNode);
+                        link.sx = node.getBoundingClientRect().x + node.getBoundingClientRect().width / 2;
+                        link.sy = node.getBoundingClientRect().y + node.getBoundingClientRect().height / 2;
+                    }
 
-                    link.ex = node.getBoundingClientRect().x + node.getBoundingClientRect().width / 2;
-                    link.ey = node.getBoundingClientRect().y + node.getBoundingClientRect().height / 2;
+                    if (link.e == button) {
+                        const node = event.target.closest('.root').querySelector('.' + link.endNode);
+
+                        link.ex = node.getBoundingClientRect().x + node.getBoundingClientRect().width / 2;
+                        link.ey = node.getBoundingClientRect().y + node.getBoundingClientRect().height / 2;
+                    }
                 }
             }
 
@@ -90,22 +113,32 @@ function move(event) {
     }
 }
 
+
 </script>
 
 <template>
     <div class="root">
         <button class="logic-block" @mousedown="move"></button>
+        <div class="self" @mousedown="selfLink"></div>
         <div class="node top" @mousedown="startLink($event, 'top')" @mouseup="endLink($event, 'top')"></div>
         <div class="node bottom" @mousedown="startLink($event, 'bottom')" @mouseup="endLink($event, 'bottom')"></div>
         <div class="node right" @mousedown="startLink($event, 'right')" @mouseup="endLink($event, 'right')"></div>
         <div class="node left" @mousedown="startLink($event, 'left')" @mouseup="endLink($event, 'left')"></div>
+
     </div>
 </template>
 
 <style scoped>
 .root {
     position: absolute;
+}
 
+.self {
+    top: 0;
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background: red;
 }
 
 .logic-block {

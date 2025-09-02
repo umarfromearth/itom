@@ -16,12 +16,12 @@ const d = (link) => {
 </script>
 
 <template>
-    <path :d="d(link)" stroke="black" stroke-width="5" fill="none" @click="linksStore.showMenu = link.menu" />
+    <path :d="d(link)" stroke="black" stroke-width="3" fill="none" @click="linksStore.selected = link" />
 </template>
 
 
 <style scoped>
-path:hover {
+/* path:hover {
     stroke: white;
-}
+} */
 </style>

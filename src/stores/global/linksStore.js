@@ -8,12 +8,13 @@ export const useLinksStore = defineStore('links-store', function () {
         { from: "button", to: "button", menu: "button to button menu" }
     ]
 
-    const showMenu = null;
+
+    const selected = null;
 
 
     return {
         links,
         relations,
-        showMenu
+        selected
     }
 })

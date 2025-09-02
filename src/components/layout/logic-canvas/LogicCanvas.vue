@@ -27,12 +27,30 @@ import LinksBoard from './LinksBoard.vue/LinksBoard.vue';
                 <path v-for="link in linksStore.links"
                     :d="' M ' + link.sx + ' ' + link.sy + ' L ' + link.ex + ' ' + link.ey" stroke="black" />
             </svg> -->
-
+            {{ linksStore.links }}
             <LinksBoard />
             <component v-for="layer in layersStore.layers" :is="ButtonLogic" :layer="layer" />
-            <div class="menu" v-if="linksStore.showMenu">
-                <button @click="linksStore.showMenu = null"> close</button>
-            </div>
+            <!-- <div class="menu" v-if="linksStore.selected">
+                <div>
+                    <label for="">trigger: </label>
+                    <select name="" id="">
+                        <option value="">click</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="">action: </label>
+                    <select name="" id="">
+                        <option value="">change state</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="">to:</label>
+                    <select name="" id="">
+                        <option value="" v-for="state in linksStore.selected.e.states"></option>
+                    </select>
+                </div>
+                <button @click="linksStore.selected = null"> close</button>
+            </div> -->
         </div>
 
     </div>
