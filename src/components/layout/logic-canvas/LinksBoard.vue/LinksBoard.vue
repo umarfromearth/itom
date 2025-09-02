@@ -18,6 +18,13 @@ const d = ((link) => {
 
 <template>
     <svg xmlns='https://www.w3.org/2000/svg' ref="svg">
-        <path v-for="link in linksStore.links" :d="d(link)" stroke="black" stroke-width="3" fill="none" />
+        <path v-for="link in linksStore.links" :d="d(link)" stroke="black" stroke-width="3" fill="none"
+            @click="console.log(link.menu)" />
     </svg>
 </template>
+
+<style scoped>
+path:hover {
+    stroke-width: 5;
+}
+</style>

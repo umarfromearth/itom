@@ -33,7 +33,17 @@ class Link {
         this.ey = node.getBoundingClientRect().y + node.getBoundingClientRect().height / 2;
         this.blank = false;
         this.endNode = end;
+
+        // defining the relation between start and end blocks
+        for (let relation of linksStore.relations) {
+            if (relation.from == this.s.constructor.name && relation.to == this.e.constructor.name) {
+
+                this.menu = relation.menu;
+            }
+        }
+
     }
+
 }
 
 function startLink(event, startNode) {
@@ -43,7 +53,6 @@ function startLink(event, startNode) {
 
 function endLink(event, endNode) {
     linksStore.links.at(-1).end(button, event.target, endNode)
-    console.log(linksStore.links)
 }
 
 function move(event) {
