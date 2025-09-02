@@ -1,7 +1,9 @@
 <script setup>
+import { useLinksStore } from '@/stores/global/linksStore';
+
 
 const { svg, link } = defineProps(["svg", "link"]);
-
+const linksStore = useLinksStore();
 console.log(link, svg)
 
 const d = (link) => {
@@ -14,12 +16,12 @@ const d = (link) => {
 </script>
 
 <template>
-    <path :d="d(link)" stroke="black" stroke-width="3" fill="none" @click="console.log(link.menu)" />
+    <path :d="d(link)" stroke="black" stroke-width="5" fill="none" @click="linksStore.showMenu = link.menu" />
 </template>
 
 
 <style scoped>
 path:hover {
-    stroke-width: 5;
+    stroke: white;
 }
 </style>

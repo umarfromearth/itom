@@ -30,6 +30,9 @@ import LinksBoard from './LinksBoard.vue/LinksBoard.vue';
 
             <LinksBoard />
             <component v-for="layer in layersStore.layers" :is="ButtonLogic" :layer="layer" />
+            <div class="menu" v-if="linksStore.showMenu">
+                <button @click="linksStore.showMenu = null"> close</button>
+            </div>
         </div>
 
     </div>
@@ -55,5 +58,12 @@ svg {
     height: 100%;
     left: 0;
     top: 0;
+}
+
+.menu {
+    width: 500px;
+    height: 500px;
+    background: aqua;
+    position: absolute;
 }
 </style>
