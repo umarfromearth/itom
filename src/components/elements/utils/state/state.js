@@ -4,26 +4,36 @@ export class State {
         this.rulesets = rulesets;
     }
 
-
     compile() {
-        let compiled = "";
-        let r;
-        for (let ruleset of Object.entries(this.rulesets)) {
-            let selector = ruleset[0].replace("%", this.root);
-            let d;
-            for (let decleration of Object.entries(ruleset[1])) {
-                d = decleration[0] + ":" + decleration[1] + ";";
-                r += d;
-            }
-            r += "}";
-            compiled += r;
+        return this.compileRulesets(this.rulesets)
+    }
+
+    compileRulesets(rulsets) {
+        let compiled = '';
+        for (let [selector, declerations] of Object.entries(rulsets)) {
+            compiled += this.compileRuleset(selector, declerations)
         }
         return compiled;
     }
 
+    compileRuleset(selector, declerations) {
+        return this.normalizeSelector(this.root, selector) + " {" + this.compileDeclerations(declerations) + "\n}\n\n";
+    }
+
+    normalizeSelector(root, selector) {
+        return selector.replace("%", root);
+    }
+
+    compileDeclerations(declerations) {
+        let compiled = '';
+        for (let [name, value] of Object.entries(declerations)) {
+            compiled += this.compileDecleration(name, value);
+        }
+        return compiled;
+    }
+
+    compileDecleration(name, value) {
+        return `\n\t${name}: ${value};`;
+    }
+
 }
-
-
-// rulsets, components
-
-// rulsets = {this.components.button: {width: 100px; height: 100px}}
