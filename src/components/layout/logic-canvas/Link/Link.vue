@@ -4,7 +4,6 @@ import { useLinksStore } from '@/stores/global/linksStore';
 
 const { svg, link } = defineProps(["svg", "link"]);
 const linksStore = useLinksStore();
-console.log(link, svg)
 
 const d = (link) => {
     let x = svg.getBoundingClientRect().x;

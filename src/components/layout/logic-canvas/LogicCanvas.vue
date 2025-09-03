@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, reactive, ref, useTemplateRef } from 'vue';
+import { onMounted, reactive, ref, useTemplateRef, watch } from 'vue';
 
 import { useLayersStore } from '@/stores/global/layersStore';
 import { useLinksStore } from '@/stores/global/linksStore';
@@ -12,7 +12,24 @@ const layersStore = useLayersStore();
 
 import LinksBoard from './LinksBoard.vue/LinksBoard.vue';
 
+const newState = ref("default");
 
+watch(linksStore.links, function () {
+    let css = '';
+    for (let link of linksStore.links) {
+        for (let action of link.actions) {
+            console.log(action)
+            if (link.self == true) {
+                css += `
+                .${link.s.name}:active{
+                    background: red;
+                }
+                `
+            }
+        }
+    }
+    console.log(css)
+})
 
 
 </script>
@@ -21,16 +38,9 @@ import LinksBoard from './LinksBoard.vue/LinksBoard.vue';
     <div class="logic-canvas"
         @mousemove="(event) => { if (linksStore.links.length > 0) linksStore.links.at(-1).move(event) }">
         <div class="editor">
-
-            <!-- {{ linksStore.links }} -->
-            <!-- <svg xmlns='https://www.w3.org/2000/svg' ref="svg">
-                <path v-for="link in linksStore.links"
-                    :d="' M ' + link.sx + ' ' + link.sy + ' L ' + link.ex + ' ' + link.ey" stroke="black" />
-            </svg> -->
-            {{ linksStore.links }}
             <LinksBoard />
             <component v-for="layer in layersStore.layers" :is="ButtonLogic" :layer="layer" />
-            <!-- <div class="menu" v-if="linksStore.selected">
+            <div class="menu" v-if="linksStore.selected">
                 <div>
                     <label for="">trigger: </label>
                     <select name="" id="">
@@ -45,12 +55,15 @@ import LinksBoard from './LinksBoard.vue/LinksBoard.vue';
                 </div>
                 <div>
                     <label for="">to:</label>
-                    <select name="" id="">
-                        <option value="" v-for="state in linksStore.selected.e.states"></option>
+                    <select name="" id="" v-model="newState">
+                        <option :value="state" v-for="state in Object.keys(linksStore.selected.e.states)">{{ state }}
+                        </option>
                     </select>
                 </div>
+                <button
+                    @click="linksStore.selected.actions.push({ trigger: 'click', action: 'change state', to: newState })">add</button>
                 <button @click="linksStore.selected = null"> close</button>
-            </div> -->
+            </div>
         </div>
 
     </div>

@@ -4,6 +4,8 @@ import { ref } from 'vue';
 
 const { layer: button } = defineProps(["layer"])
 
+const self = ref(null);
+
 const linksStore = useLinksStore();
 
 class Link {
@@ -13,6 +15,8 @@ class Link {
         this.startNode = "";
         this.endNode = "";
         this.self = false;
+
+        this.actions = [];
     }
 
     start(block, node, start) {
@@ -27,6 +31,7 @@ class Link {
             this.ex = event.clientX;
             this.ey = event.clientY;
         }
+
     }
 
     end(block, node, end) {
@@ -41,28 +46,18 @@ class Link {
 
 function selfLink() {
 
-    let added = linksStore.links.find((link) => {
-        if (link.self == true) {
-            if (link.s == button)
-                return link
-        }
-        return false;
-    })
-
-    if (!added) {
-
+    if (self.value == null) {
         let link = new Link();
-
         [link.sx, link.sy] = [0, 0];
         [link.ex, link.ey] = [0, 0];
         [link.s, link.e] = [button, button];
         link.blank = false;
         link.self = true;
-
         linksStore.links.push(link);
-
-        linksStore.selected = link;
+        self.value = linksStore.links.at(-1);
     }
+
+    linksStore.selected = self.value;
 
 }
 
@@ -119,12 +114,11 @@ function move(event) {
 <template>
     <div class="root">
         <button class="logic-block" @mousedown="move"></button>
-        <div class="self" @mousedown="selfLink"></div>
+        <div class="self" @click="selfLink"></div>
         <div class="node top" @mousedown="startLink($event, 'top')" @mouseup="endLink($event, 'top')"></div>
         <div class="node bottom" @mousedown="startLink($event, 'bottom')" @mouseup="endLink($event, 'bottom')"></div>
         <div class="node right" @mousedown="startLink($event, 'right')" @mouseup="endLink($event, 'right')"></div>
         <div class="node left" @mousedown="startLink($event, 'left')" @mouseup="endLink($event, 'left')"></div>
-
     </div>
 </template>
 
