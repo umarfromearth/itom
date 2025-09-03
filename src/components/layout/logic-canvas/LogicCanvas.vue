@@ -18,18 +18,14 @@ watch(linksStore.links, function () {
     let css = '';
     for (let link of linksStore.links) {
         for (let action of link.actions) {
-            for (let [selector, declerations] of Object.entries(link.s.states[action.to].rulesets)) {
-                css += `
-                ${selector.replace("%", link.s.states[action.to].root)}:active{
-                    background: red;
-                    }
-
-                    @keyframes ${link.s.name}-click{
-                        to{
-                            ${declerations}
-                        }
-                    }
+            let state = link.s.states[action.to];
+            for (let [selector, declerations] of Object.entries(state.rulesets)) {
+                css +=
                     `
+                    ${state.normalizeSelector(link.s.name, selector)}{
+                        ${state.compileDeclerations(declerations)}
+                    }
+                `
             }
         }
     }
