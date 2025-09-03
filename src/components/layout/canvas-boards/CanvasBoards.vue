@@ -14,7 +14,9 @@ const activeMode = ref("editing");
 <template>
     <div class="canvas-boards">
         <div class="active-canvas">
-            <component :is="modes[activeMode]" />
+            <KeepAlive>
+                <component :is="modes[activeMode]" />
+            </KeepAlive>
         </div>
         <div class="modes-switcher">
             <button @click="activeMode = 'editing'">editing</button>
