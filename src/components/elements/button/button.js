@@ -21,6 +21,10 @@ export default class Button {
             default: new State(this.name, {
                 ".% button": { width: "200px", height: "200px" },
             }),
+
+            ticked: new State(this.name, {
+                ".% button": { width: "300px", height: "300px" },
+            }),
         };
     }
 

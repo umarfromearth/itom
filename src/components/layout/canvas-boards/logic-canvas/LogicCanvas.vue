@@ -14,6 +14,8 @@ import LinksBoard from './LinksBoard.vue/LinksBoard.vue';
 
 const newState = ref("default");
 
+let style = document.createElement("style");
+
 watch(linksStore.links, function () {
     let css = '';
     for (let link of linksStore.links) {
@@ -22,14 +24,15 @@ watch(linksStore.links, function () {
             for (let [selector, declerations] of Object.entries(state.rulesets)) {
                 css +=
                     `
-                    ${state.normalizeSelector(link.s.name, selector)}{
+                    ${state.normalizeSelector(link.s.name, selector)}:hover{
                         ${state.compileDeclerations(declerations)}
                     }
                 `
             }
         }
     }
-    console.log(css)
+    style.innerText = css;
+    document.head.append(style)
 })
 
 
