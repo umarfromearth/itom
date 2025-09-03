@@ -72,12 +72,11 @@ watch(linksStore.links, function () {
 
 <style scoped>
 .logic-canvas {
-    width: 70%;
-    overflow: auto;
+    width: 100%;
+    height: 100%;
 }
 
 .editor {
-    /* width: 2000px; */
     height: 100%;
     background: grey;
     display: flex;

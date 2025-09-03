@@ -66,9 +66,8 @@ function move(event) {
 
 <style scoped>
 .editing-canvas {
-    width: 70%;
+    width: 100%;
     height: 100%;
-    background: grey;
 
     overflow: hidden;
 
