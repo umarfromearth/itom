@@ -10,7 +10,6 @@ export class State {
         let r;
         for (let ruleset of Object.entries(this.rulesets)) {
             let selector = ruleset[0].replace("%", this.root);
-            r = selector + "{"
             let d;
             for (let decleration of Object.entries(ruleset[1])) {
                 d = decleration[0] + ":" + decleration[1] + ";";
