@@ -1,6 +1,6 @@
 <script setup>
 import { useLinksStore } from '@/stores/global/linksStore';
-import Link from '../Link/Link.vue'
+import Link from './Link/Link.vue'
 import { onMounted, reactive, ref, useTemplateRef } from 'vue';
 
 const linksStore = useLinksStore();

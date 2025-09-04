@@ -1,18 +1,16 @@
 <script setup>
-import { onMounted, reactive, ref, useTemplateRef, watch } from 'vue';
+import { watch } from 'vue';
 
 import { useLayersStore } from '@/stores/global/layersStore';
 import { useLinksStore } from '@/stores/global/linksStore';
 
-const linksStore = useLinksStore();
-
 import ButtonLogic from '@/components/elements/button/implementations/logic.vue';
 
-const layersStore = useLayersStore();
-
 import LinksBoard from './LinksBoard.vue/LinksBoard.vue';
+import InteractionMenu from '@/components/ui/interaction-menu/InteractionMenu.vue';
 
-const newState = ref("default");
+const linksStore = useLinksStore();
+const layersStore = useLayersStore();
 
 let style = document.createElement("style");
 
@@ -35,7 +33,6 @@ watch(linksStore.links, function () {
     document.head.append(style)
 })
 
-
 </script>
 
 <template>
@@ -44,30 +41,7 @@ watch(linksStore.links, function () {
         <div class="editor">
             <LinksBoard />
             <component v-for="layer in layersStore.layers" :is="ButtonLogic" :layer="layer" />
-            <div class="menu" v-if="linksStore.selected">
-                <div>
-                    <label for="">trigger: </label>
-                    <select name="" id="">
-                        <option value="">click</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="">action: </label>
-                    <select name="" id="">
-                        <option value="">change state</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="">to:</label>
-                    <select name="" id="" v-model="newState">
-                        <option :value="state" v-for="state in Object.keys(linksStore.selected.e.states)">{{ state }}
-                        </option>
-                    </select>
-                </div>
-                <button
-                    @click="linksStore.selected.actions.push({ trigger: 'click', action: 'change state', to: newState })">add</button>
-                <button @click="linksStore.selected = null"> close</button>
-            </div>
+            <InteractionMenu v-if="linksStore.selected" />
         </div>
 
     </div>
