@@ -2,15 +2,28 @@
 import { useLinksStore } from '@/stores/global/linksStore';
 
 
-const { svg, link } = defineProps(["svg", "link"]);
+const { startCoordinates, link } = defineProps(["start-coordinates", "link"]);
 const linksStore = useLinksStore();
 
 const d = (link) => {
-    let x = svg.getBoundingClientRect().x;
-    let y = svg.getBoundingClientRect().y;
 
-    // C P1 P2 E
-    return `M ${link.sx - x} ${link.sy - y} C ${(link.sx - x + (Math.abs(link.ex - link.sx)) / 2)} ${link.sy - y} ${(link.ex - x - (Math.abs(link.ex - link.sx)) / 2)} ${link.ey - y} ${link.ex - x} ${link.ey - y}`;
+    const relativeStartX = link.sx - startCoordinates.x;
+    const relativeStartY = link.sy - startCoordinates.y;
+    const relativeEndX = link.ex - startCoordinates.x;
+    const relativeEndY = link.ey - startCoordinates.y;
+
+    const m = `M ${relativeStartX} ${relativeStartY}`;
+
+    const curveWidth = Math.abs(link.ex - link.sx);
+    const curveHeight = Math.abs(link.ex - link.sx);
+
+    const p1 = `${relativeStartX + curveWidth / 2} ${relativeStartY}`;
+    const p2 = `${relativeEndX - curveWidth / 2} ${relativeEndY}`
+    const p3 = `${relativeEndX} ${relativeEndY}`
+
+    const c = `C ${p1} ${p2} ${p3}`
+
+    return `${m} ${c}`;
 }
 </script>
 
