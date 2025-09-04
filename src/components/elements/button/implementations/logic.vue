@@ -1,48 +1,14 @@
 <script setup>
-import { useLinksStore } from '@/stores/global/linksStore';
-import { ref } from 'vue';
+import { userInteractionsStore } from '@/stores/global/interactionsStore';
+import Interaction from '@/interactions/interaction';
 
 const { layer: button } = defineProps(["layer"])
 
-const self = ref(null);
+// const self = ref(null);
 
-const linksStore = useLinksStore();
+const interactionsStore = userInteractionsStore();
 
-class Link {
 
-    constructor() {
-        this.blank = true;
-        this.startNode = "";
-        this.endNode = "";
-        this.self = false;
-
-        this.actions = [];
-    }
-
-    start(block, node, start) {
-        this.sx = (node.getBoundingClientRect().x + node.getBoundingClientRect().width / 2);
-        this.sy = node.getBoundingClientRect().y + node.getBoundingClientRect().height / 2;
-        this.s = block;
-        this.startNode = start;
-    }
-
-    move(event) {
-        if (this.blank) {
-            this.ex = event.clientX;
-            this.ey = event.clientY;
-        }
-
-    }
-
-    end(block, node, end) {
-        this.e = block;
-        this.ex = node.getBoundingClientRect().x + node.getBoundingClientRect().width / 2;
-        this.ey = node.getBoundingClientRect().y + node.getBoundingClientRect().height / 2;
-        this.blank = false;
-        this.endNode = end;
-    }
-
-}
 
 function selfLink() {
 
@@ -61,19 +27,23 @@ function selfLink() {
 
 }
 
-function startLink(event, startNode) {
-    linksStore.links.push(new Link());
-    linksStore.links.at(-1).start(button, event.target, startNode);
+function startInteraction(event) {
+    console.log("new interaction started")
+    interactionsStore.interactions.push(new Interaction());
+    interactionsStore.interactions.at(-1).startPath(button, event.target);
 }
 
-function endLink(event, endNode) {
-    linksStore.links.at(-1).end(button, event.target, endNode)
+function endInteraction(event) {
+    console.log("new interaction ended")
+
+    interactionsStore.interactions.at(-1).endPath(button, event.target)
+
+    console.log(interactionsStore.interactions)
 }
 
 function move(event) {
     const snap = 1;
     let target = event.target.closest(".root");
-
 
     if (target) {
         let clickX = event.clientX - target.getBoundingClientRect().x;
@@ -83,20 +53,28 @@ function move(event) {
             target.style.left = ((e.clientX - clickX)) - ((e.clientX - clickX) % snap) + "px";
             target.style.top = ((e.clientY - clickY)) - ((e.clientY - clickY) % snap) + "px";
 
-            for (let link of linksStore.links) {
-                if (!link.self) {
+            for (let interaction of interactionsStore.interactions) {
+                if (!interaction.self) {
 
-                    if (link.s == button) {
-                        const node = event.target.closest('.root').querySelector('.' + link.startNode);
-                        link.sx = node.getBoundingClientRect().x + node.getBoundingClientRect().width / 2;
-                        link.sy = node.getBoundingClientRect().y + node.getBoundingClientRect().height / 2;
+                    if (interaction.triggerHappensOn == button) {
+                        const node = event.target.closest('.root').querySelector('.node');
+
+                        const boundingClientRect = node.getBoundingClientRect();
+                        const nodeCenterX = boundingClientRect.x + boundingClientRect.width / 2
+                        const nodeCenterY = boundingClientRect.y + boundingClientRect.height / 2
+
+                        interaction.startCoords = { x: nodeCenterX, y: nodeCenterY };
+
                     }
 
-                    if (link.e == button) {
-                        const node = event.target.closest('.root').querySelector('.' + link.endNode);
+                    if (interaction.actionHappensOn == button) {
+                        const node = event.target.closest('.root').querySelector('.node');
 
-                        link.ex = node.getBoundingClientRect().x + node.getBoundingClientRect().width / 2;
-                        link.ey = node.getBoundingClientRect().y + node.getBoundingClientRect().height / 2;
+                        const boundingClientRect = node.getBoundingClientRect();
+                        const nodeCenterX = boundingClientRect.x + boundingClientRect.width / 2
+                        const nodeCenterY = boundingClientRect.y + boundingClientRect.height / 2
+
+                        interaction.endCoords = { x: nodeCenterX, y: nodeCenterY };
                     }
                 }
             }
@@ -114,11 +92,11 @@ function move(event) {
 <template>
     <div class="root">
         <button class="logic-block" @mousedown="move"></button>
-        <div class="self" @click="selfLink"></div>
-        <div class="node top" @mousedown="startLink($event, 'top')" @mouseup="endLink($event, 'top')"></div>
-        <div class="node bottom" @mousedown="startLink($event, 'bottom')" @mouseup="endLink($event, 'bottom')"></div>
-        <div class="node right" @mousedown="startLink($event, 'right')" @mouseup="endLink($event, 'right')"></div>
-        <div class="node left" @mousedown="startLink($event, 'left')" @mouseup="endLink($event, 'left')"></div>
+        <!-- <div class="self" @click="selfinteraction"    ></div> -->
+        <!-- <div class="node top" @mousedown="startLink($event, 'top')" @mouseup="endLink($event, 'top')"></div> -->
+        <!-- <div class="node bottom" @mousedown="startLink($event, 'bottom')" @mouseup="endLink($event, 'bottom')"></div> -->
+        <div class="node right" @mousedown="startInteraction($event)" @mouseup="endInteraction($event)"></div>
+        <!-- <div class="node left" @mousedown="startLink($event, 'left')" @mouseup="endLink($event, 'left')"></div> -->
     </div>
 </template>
 

@@ -2,21 +2,21 @@
 import { watch } from 'vue';
 
 import { useLayersStore } from '@/stores/global/layersStore';
-import { useLinksStore } from '@/stores/global/linksStore';
+import { userInteractionsStore } from '@/stores/global/interactionsStore';
 
 import ButtonLogic from '@/components/elements/button/implementations/logic.vue';
 
 import LinksBoard from './LinksBoard.vue/LinksBoard.vue';
 import InteractionMenu from '@/components/ui/interaction-menu/InteractionMenu.vue';
 
-const linksStore = useLinksStore();
+const interactionsStore = userInteractionsStore();
 const layersStore = useLayersStore();
 
 let style = document.createElement("style");
 
-watch(linksStore.links, function () {
+watch(interactionsStore.interactions, function () {
     let css = '';
-    for (let link of linksStore.links) {
+    for (let link of interactionsStore.interactions) {
         for (let action of link.actions) {
             let state = link.s.states[action.to];
             for (let [selector, declerations] of Object.entries(state.rulesets)) {
@@ -36,12 +36,11 @@ watch(linksStore.links, function () {
 </script>
 
 <template>
-    <div class="logic-canvas"
-        @mousemove="(event) => { if (linksStore.links.length > 0) linksStore.links.at(-1).move(event) }">
+    <div class="logic-canvas">
         <div class="editor">
             <LinksBoard />
             <component v-for="layer in layersStore.layers" :is="ButtonLogic" :layer="layer" />
-            <InteractionMenu v-if="linksStore.selected" />
+            <InteractionMenu v-if="interactionsStore.selected" />
         </div>
 
     </div>

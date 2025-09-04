@@ -1,21 +1,21 @@
 <script setup>
-import { useLinksStore } from '@/stores/global/linksStore';
+import { userInteractionsStore } from '@/stores/global/interactionsStore';
+
+const { startCoordinates, interaction } = defineProps(["start-coordinates", "interaction"]);
+const interactionsStore = userInteractionsStore();
 
 
-const { startCoordinates, link } = defineProps(["start-coordinates", "link"]);
-const linksStore = useLinksStore();
+const d = (interaction) => {
 
-const d = (link) => {
-
-    const relativeStartX = link.sx - startCoordinates.x;
-    const relativeStartY = link.sy - startCoordinates.y;
-    const relativeEndX = link.ex - startCoordinates.x;
-    const relativeEndY = link.ey - startCoordinates.y;
+    const relativeStartX = interaction.startCoords.x - startCoordinates.x;
+    const relativeStartY = interaction.startCoords.y - startCoordinates.y;
+    const relativeEndX = interaction.endCoords.x - startCoordinates.x;
+    const relativeEndY = interaction.endCoords.y - startCoordinates.y;
 
     const m = `M ${relativeStartX} ${relativeStartY}`;
 
-    const curveWidth = Math.abs(link.ex - link.sx);
-    const curveHeight = Math.abs(link.ex - link.sx);
+    const curveWidth = Math.abs(interaction.endCoords.x - interaction.startCoords.x);
+    const curveHeight = Math.abs(interaction.endCoords.x - interaction.startCoords.x);
 
     const p1 = `${relativeStartX + curveWidth / 2} ${relativeStartY}`;
     const p2 = `${relativeEndX - curveWidth / 2} ${relativeEndY}`
@@ -28,7 +28,8 @@ const d = (link) => {
 </script>
 
 <template>
-    <path :d="d(link)" stroke="black" stroke-width="3" fill="none" @click="linksStore.selected = link" />
+    <path :d="d(interaction)" stroke="black" stroke-width="3" fill="none"
+        @click="interactionsStore.selected = interaction" />
 </template>
 
 

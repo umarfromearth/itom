@@ -1,5 +1,5 @@
 <script setup>
-import { useLinksStore } from '@/stores/global/linksStore';
+import { userInteractionsStore } from '@/stores/global/interactionsStore';
 
 // const { triggerHappensOn, actionHappensOn } = defineProps(["trigger-happens-on", "action-happens-on"]);
 

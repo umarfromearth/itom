@@ -1,9 +1,9 @@
 <script setup>
-import { useLinksStore } from '@/stores/global/linksStore';
+import { userInteractionsStore } from '@/stores/global/interactionsStore';
 import Link from './Link/Link.vue'
 import { onMounted, reactive, ref, useTemplateRef } from 'vue';
 
-const linksStore = useLinksStore();
+const interactionsStore = userInteractionsStore();
 
 const linksBoard = useTemplateRef("links-board");
 
@@ -19,6 +19,7 @@ onMounted(() => {
 
 <template>
     <svg xmlns='https://www.w3.org/2000/svg' ref="links-board" class="links-board">
-        <Link v-for="link in linksStore.links" :link="link" :start-coordinates="startCoordinates" />
+        <Link v-for="interaction in interactionsStore.interactions" :interaction="interaction"
+            :start-coordinates="startCoordinates" />
     </svg>
 </template>
