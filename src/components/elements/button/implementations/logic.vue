@@ -9,7 +9,6 @@ const { layer: button } = defineProps(["layer"])
 const interactionsStore = userInteractionsStore();
 
 
-
 function selfLink() {
 
     if (self.value == null) {
@@ -28,18 +27,17 @@ function selfLink() {
 }
 
 function startInteraction(event) {
-    console.log("new interaction started")
     interactionsStore.interactions.push(new Interaction());
     interactionsStore.interactions.at(-1).startPath(button, event.target);
 }
 
 function endInteraction(event) {
-    console.log("new interaction ended")
-
     interactionsStore.interactions.at(-1).endPath(button, event.target)
-
     console.log(interactionsStore.interactions)
 }
+
+
+
 
 function move(event) {
     const snap = 1;
