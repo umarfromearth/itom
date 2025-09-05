@@ -4,8 +4,6 @@ import Interaction from '@/interactions/interaction';
 
 const { layer: button } = defineProps(["layer"])
 
-// const self = ref(null);
-
 const interactionsStore = userInteractionsStore();
 
 
@@ -35,7 +33,6 @@ function endInteraction(event) {
     interactionsStore.interactions.at(-1).endPath(button, event.target)
     console.log(interactionsStore.interactions)
 }
-
 
 
 
@@ -88,13 +85,16 @@ function move(event) {
 </script>
 
 <template>
-    <div class="root">
-        <button class="logic-block" @mousedown="move"></button>
+    <div class="root" @dragstart.prevent="">
+        <div class="logic-block" @mousedown="move">
+        </div>
         <!-- <div class="self" @click="selfinteraction"    ></div> -->
-        <!-- <div class="node top" @mousedown="startLink($event, 'top')" @mouseup="endLink($event, 'top')"></div> -->
-        <!-- <div class="node bottom" @mousedown="startLink($event, 'bottom')" @mouseup="endLink($event, 'bottom')"></div> -->
-        <div class="node right" @mousedown="startInteraction($event)" @mouseup="endInteraction($event)"></div>
-        <!-- <div class="node left" @mousedown="startLink($event, 'left')" @mouseup="endLink($event, 'left')"></div> -->
+        <div class="nodes" @mousedown="startInteraction($event)" @mouseup="endInteraction($event)">
+            <div class="node top"></div>
+            <div class="node bottom"></div>
+            <div class="node right"></div>
+            <div class="node left"></div>
+        </div>
     </div>
 </template>
 
@@ -124,6 +124,7 @@ function move(event) {
     transform: translate(-50%, -50%);
 }
 
+
 .node.left {
     top: 50%;
     left: 0;
@@ -149,6 +150,8 @@ function move(event) {
     background-color: black;
     border-radius: 100%;
     position: absolute;
+
+    border: none;
 }
 
 /* 
