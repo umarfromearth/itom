@@ -1,27 +1,29 @@
 <script setup>
 import { userInteractionsStore } from '@/stores/global/interactionsStore';
 import Interaction from '@/interactions/interaction';
+import { ref } from 'vue';
 
 const { layer: button } = defineProps(["layer"])
 
 const interactionsStore = userInteractionsStore();
 
+const hasSelfInteraction = ref(false);
 
-function selfLink() {
+function addSelfInteraction() {
+    if (hasSelfInteraction.value == false) {
+        let interaction = new Interaction();
 
-    if (self.value == null) {
-        let link = new Link();
-        [link.sx, link.sy] = [0, 0];
-        [link.ex, link.ey] = [0, 0];
-        [link.s, link.e] = [button, button];
-        link.blank = false;
-        link.self = true;
-        linksStore.links.push(link);
-        self.value = linksStore.links.at(-1);
+        interaction.blank = false;
+        interaction.self = true;
+
+        interactionsStore.interactions.push(interaction);
+
+        // selects current interaction so that interaction menu opens
+        // as soon as self interaction is created
+        interactionsStore.selected = interaction;
+
+        hasSelfInteraction.value = true;
     }
-
-    linksStore.selected = self.value;
-
 }
 
 function startInteraction(event) {
@@ -31,10 +33,7 @@ function startInteraction(event) {
 
 function endInteraction(event) {
     interactionsStore.interactions.at(-1).endPath(button, event.target)
-    console.log(interactionsStore.interactions)
 }
-
-
 
 function move(event) {
     const snap = 1;
@@ -81,14 +80,14 @@ function move(event) {
     }
 }
 
-
 </script>
 
 <template>
     <div class="root" @dragstart.prevent="">
         <div class="logic-block" @mousedown="move">
         </div>
-        <!-- <div class="self" @click="selfinteraction"    ></div> -->
+
+        <div class="self" @click="addSelfInteraction"></div>
         <div class="nodes" @mousedown="startInteraction($event)" @mouseup="endInteraction($event)">
             <div class="node top"></div>
             <div class="node bottom"></div>
