@@ -17,7 +17,7 @@ watch(
                 .length == 0
         ) {
             interactionsStore.selectedInteractionPath.interaction.selectedSubInteraction =
-                new SubInteraction(new ClickTrigger(), new ChangeStateAction());
+                new SubInteraction(new ClickTrigger(interactionsStore.selectedInteractionPath.triggerHappensOn), new ChangeStateAction(interactionsStore.selectedInteractionPath.actionHappensOn));
 
             // add a new subinteraction
             interactionsStore.selectedInteractionPath.interaction.subInteractions.push(
