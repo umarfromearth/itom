@@ -1,12 +1,23 @@
 <script setup>
-
+import { ref } from "vue";
 import PropertiesPanel from "./properties-panel/PropertiesPanel.vue";
+import InteractionPanel from "./interaction-panel/InteractionPanel.vue";
+
+const tabs = { PropertiesPanel, InteractionPanel }
+const activeTab = ref("PropertiesPanel");
 
 </script>
 
 <template>
     <div class="right-sidebar">
-        <PropertiesPanel />
+        <div>
+            <button @click="activeTab = 'PropertiesPanel'">properties</button>
+            <button @click="activeTab = 'InteractionPanel'">interaction</button>
+        </div>
+
+        <div class="active-panel">
+            <component :is="tabs[activeTab]" />
+        </div>
     </div>
 </template>
 
