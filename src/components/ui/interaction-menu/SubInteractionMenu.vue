@@ -9,9 +9,6 @@ import SubInteraction from "@/interaction/sub-interaction";
 
 const interactionsStore = userInteractionsStore();
 
-// const interaction = reactive({ trigger: null, action: null });
-
-// when looking for nested properties we need getter function
 watch(
     () => interactionsStore.selectedInteractionPath,
     function () {
@@ -36,37 +33,41 @@ watch(
 
 <template>
     <div class="interaction-menu">
-        <!-- <div class="layer-info">
+        <div class="layer-info">
             Add interaction for <p>{{ interactionsStore.selectedInteractionPath.triggerHappensOn.name }}</p>
-            <p>{{ interaction.action.newState }}</p>
             <div>
                 <label for="">trigger: </label>
                 <select name="" id="">
-                    <option value="">click</option>
+                    <option
+                        v-for="trigger in interactionsStore.selectedInteractionPath.triggerHappensOn.supportedTriggers"
+                        value="">{{ trigger.name }}</option>
                 </select>
             </div>
 
             <div>
                 <label for="">action: </label>
                 <select name="" id="">
-                    <option value="">change state</option>
+                    <option v-for="action in interactionsStore.selectedInteractionPath.actionHappensOn.supportedActions"
+                        value="">{{ action.name }}</option>
                 </select>
             </div>
 
-            <div v-if="interaction.action.constructor == ChangeStateAction">
-                <label for="">state: </label>
-                <select name="" id="" v-model="interaction.action.newState">
-                    <option :value="state"
-                        v-for="state in Object.keys(interactionsStore.selectedInteractionPath.actionHappensOn.states)">
-                        {{
-                            state }}</option>
+            <div
+                v-if="interactionsStore.selectedInteractionPath.interaction.selectedSubInteraction.action.constructor == ChangeStateAction">
+
+                <label for="">new state: </label>
+                <select name="" id=""
+                    v-model="interactionsStore.selectedInteractionPath.interaction.selectedSubInteraction.action.newState">
+                    <option
+                        v-for="state in Object.keys(interactionsStore.selectedInteractionPath.actionHappensOn.states)"
+                        :value="state">{{ state }}</option>
                 </select>
             </div>
 
             <div>
                 <button @click="interactionsStore.selectedInteractionPath = null">close</button>
             </div>
-        </div> -->
+        </div>
     </div>
 </template>
 

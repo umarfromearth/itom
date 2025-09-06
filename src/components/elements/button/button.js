@@ -1,4 +1,6 @@
+import ClickTrigger from "@/triggers/types/click";
 import { State } from "../utils/state/state";
+import ChangeStateAction from "@/actions/change-state";
 
 export default class Button {
     static name = "button";
@@ -26,6 +28,9 @@ export default class Button {
                 ".% button": { width: "300px", height: "300px" },
             }),
         };
+
+        this.supportedTriggers = [ClickTrigger];
+        this.supportedActions = [ChangeStateAction]
     }
 
     css() {

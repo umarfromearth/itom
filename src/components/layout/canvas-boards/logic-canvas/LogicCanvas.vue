@@ -14,24 +14,25 @@ const layersStore = useLayersStore();
 
 let style = document.createElement("style");
 
-// watch(interactionsStore.interactionPaths, function () {
-//     let css = '';
-//     for (let link of interactionsStore.interactionPaths) {
-//         for (let action of link.actions) {
-//             let state = link.s.states[action.to];
-//             for (let [selector, declerations] of Object.entries(state.rulesets)) {
-//                 css +=
-//                     `
-//                     ${state.normalizeSelector(link.s.name, selector)}:hover{
-//                         ${state.compileDeclerations(declerations)}
-//                     }
-//                 `
-//             }
-//         }
-//     }
-//     style.innerText = css;
-//     document.head.append(style)
-// })
+watch(interactionsStore.interactionPaths, function () {
+    // let css = '';
+    // for (let link of interactionsStore.interactionPaths) {
+    //     for (let action of link.actions) {
+    //         let state = link.s.states[action.to];
+    //         for (let [selector, declerations] of Object.entries(state.rulesets)) {
+    //             css +=
+    //                 `
+    //                 ${state.normalizeSelector(link.s.name, selector)}:hover{
+    //                     ${state.compileDeclerations(declerations)}
+    //                 }
+    //             `
+    //         }
+    //     }
+    // }
+    // style.innerText = css;
+    // document.head.append(style)
+    console.log("compile interactions")
+})
 
 </script>
 
