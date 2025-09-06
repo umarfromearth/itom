@@ -1,6 +1,6 @@
 <script setup>
 import { userInteractionsStore } from '@/stores/global/interactionsStore';
-import Link from './Link/Link.vue'
+import InteractionPath from './interaction-path/InteractionPath.vue'
 import { onMounted, reactive, ref, useTemplateRef } from 'vue';
 
 const interactionsStore = userInteractionsStore();
@@ -18,9 +18,9 @@ onMounted(() => {
 })
 
 function checkBlankInteractions() {
-    if (interactionsStore.interactions.length > 0) {
-        if (interactionsStore.interactions.at(-1).blank) {
-            interactionsStore.interactions.pop();
+    if (interactionsStore.interactionPaths.length > 0) {
+        if (interactionsStore.interactionPaths.at(-1).blank) {
+            interactionsStore.interactionPaths.pop();
         }
     }
 }
@@ -29,7 +29,7 @@ function checkBlankInteractions() {
 
 <template>
     <svg xmlns='https://www.w3.org/2000/svg' ref="links-board" class="links-board">
-        <Link v-for="interaction in interactionsStore.interactions" :interaction="interaction"
+        <InteractionPath v-for="interaction in interactionsStore.interactionPaths" :interaction="interaction"
             :start-coordinates="startCoordinates" />
     </svg>
 </template>

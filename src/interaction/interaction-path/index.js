@@ -1,14 +1,17 @@
-export default class Interaction {
+import Interaction from "..";
+
+export default class InteractionPath {
 
     constructor() {
         this.blank = true;
-        this.actions = [];
 
         this.triggerHappensOn = null;
         this.actionHappensOn = null;
 
         this.startCoords = { x: null, y: null };
         this.endCoords = { x: null, y: null };
+
+        this.interaction = new Interaction();
     }
 
     startPath(layer, node) {

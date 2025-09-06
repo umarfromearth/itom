@@ -6,41 +6,41 @@ import { userInteractionsStore } from '@/stores/global/interactionsStore';
 
 import ButtonLogic from '@/components/elements/button/implementations/logic.vue';
 
-import LinksBoard from './LinksBoard.vue/LinksBoard.vue';
-import InteractionMenu from '@/components/ui/interaction-menu/InteractionMenu.vue';
+import InteractionMenu from '@/components/ui/interaction-menu/SubInteractionMenu.vue';
+import InteractionPathsBoard from '@/components/layout/canvas-boards/logic-canvas/interaction-paths-board/InteractionPathsBoard.vue';
 
 const interactionsStore = userInteractionsStore();
 const layersStore = useLayersStore();
 
 let style = document.createElement("style");
 
-watch(interactionsStore.interactions, function () {
-    let css = '';
-    for (let link of interactionsStore.interactions) {
-        for (let action of link.actions) {
-            let state = link.s.states[action.to];
-            for (let [selector, declerations] of Object.entries(state.rulesets)) {
-                css +=
-                    `
-                    ${state.normalizeSelector(link.s.name, selector)}:hover{
-                        ${state.compileDeclerations(declerations)}
-                    }
-                `
-            }
-        }
-    }
-    style.innerText = css;
-    document.head.append(style)
-})
+// watch(interactionsStore.interactionPaths, function () {
+//     let css = '';
+//     for (let link of interactionsStore.interactionPaths) {
+//         for (let action of link.actions) {
+//             let state = link.s.states[action.to];
+//             for (let [selector, declerations] of Object.entries(state.rulesets)) {
+//                 css +=
+//                     `
+//                     ${state.normalizeSelector(link.s.name, selector)}:hover{
+//                         ${state.compileDeclerations(declerations)}
+//                     }
+//                 `
+//             }
+//         }
+//     }
+//     style.innerText = css;
+//     document.head.append(style)
+// })
 
 </script>
 
 <template>
     <div class="logic-canvas">
         <div class="editor">
-            <LinksBoard />
+            <InteractionPathsBoard />
             <component v-for="layer in layersStore.layers" :is="ButtonLogic" :layer="layer" />
-            <InteractionMenu v-if="interactionsStore.selected" />
+            <InteractionMenu v-if="interactionsStore.selectedInteractionPath" />
         </div>
 
     </div>

@@ -2,13 +2,12 @@ import { defineStore } from "pinia";
 import { reactive } from "vue";
 
 export const userInteractionsStore = defineStore('links-store', function () {
-    const interactions = reactive([]);
+    const interactionPaths = reactive([]);
 
-    const selected = null;
-
+    const selectedInteractionPath = null;
 
     return {
-        interactions,
-        selected,
+        interactionPaths,
+        selectedInteractionPath,
     }
 })

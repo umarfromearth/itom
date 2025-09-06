@@ -1,38 +1,41 @@
 <script setup>
 import { userInteractionsStore } from '@/stores/global/interactionsStore';
-import Interaction from '@/interactions/interaction';
-import { ref } from 'vue';
+import InteractionPath from '@/interaction/interaction-path';
+import { reactive, ref } from 'vue';
 
 const { layer: button } = defineProps(["layer"])
 
 const interactionsStore = userInteractionsStore();
 
 const hasSelfInteraction = ref(false);
+const selfInteraction = ref(null);
 
 function addSelfInteraction() {
     if (hasSelfInteraction.value == false) {
-        let interaction = new Interaction();
+        let interaction = new InteractionPath();
 
         interaction.blank = false;
         interaction.self = true;
 
-        interactionsStore.interactions.push(interaction);
+        interaction.triggerHappensOn = button;
+        interaction.actionHappensOn = button;
 
-        // selects current interaction so that interaction menu opens
-        // as soon as self interaction is created
-        interactionsStore.selected = interaction;
+        interactionsStore.interactionPaths.push(interaction);
 
         hasSelfInteraction.value = true;
+        selfInteraction.value = interaction;
     }
+
+    interactionsStore.selectedInteractionPath = selfInteraction.value;
 }
 
 function startInteraction(event) {
-    interactionsStore.interactions.push(new Interaction());
-    interactionsStore.interactions.at(-1).startPath(button, event.target);
+    interactionsStore.interactionPaths.push(new InteractionPath());
+    interactionsStore.interactionPaths.at(-1).startPath(button, event.target);
 }
 
 function endInteraction(event) {
-    interactionsStore.interactions.at(-1).endPath(button, event.target)
+    interactionsStore.interactionPaths.at(-1).endPath(button, event.target)
 }
 
 function move(event) {
@@ -47,7 +50,7 @@ function move(event) {
             target.style.left = ((e.clientX - clickX)) - ((e.clientX - clickX) % snap) + "px";
             target.style.top = ((e.clientY - clickY)) - ((e.clientY - clickY) % snap) + "px";
 
-            for (let interaction of interactionsStore.interactions) {
+            for (let interaction of interactionsStore.interactionPaths) {
                 if (!interaction.self) {
 
                     if (interaction.triggerHappensOn == button) {
